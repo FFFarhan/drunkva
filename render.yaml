@@ -1,0 +1,40 @@
+databases:
+  - name: drunkva-db
+    plan: free
+    databaseName: drunkva_db
+    user: drunkva
+
+services:
+  - type: web
+    name: drunkva-api
+    env: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: drunkva-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SQL_ECHO
+        value: "false"
+      - key: CORS_ORIGINS
+        sync: false
+
+  - type: static
+    name: drunkva-frontend
+    autoDeploy: true
+    buildCommand: |
+      cat > config.js <<EOF
+      window.DRUNKVA_CONFIG = {
+        API_BASE_URL: "${API_BASE_URL}"
+      };
+      EOF
+    publishPath: .
+    envVars:
+      - key: API_BASE_URL
+        sync: false
