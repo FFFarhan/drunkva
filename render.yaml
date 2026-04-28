@@ -24,18 +24,3 @@ services:
         value: "false"
       - key: CORS_ORIGINS
         sync: false
-
-  - type: web
-    name: drunkva-frontend-static
-    runtime: static
-    autoDeploy: true
-    buildCommand: |
-      cat > config.js <<EOF
-      window.DRUNKVA_CONFIG = {
-        API_BASE_URL: "${API_BASE_URL}"
-      };
-      EOF
-    staticPublishPath: .
-    envVars:
-      - key: API_BASE_URL
-        sync: false
