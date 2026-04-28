@@ -7,7 +7,7 @@ databases:
 services:
   - type: web
     name: drunkva-api
-    env: docker
+    runtime: docker
     plan: free
     autoDeploy: true
     healthCheckPath: /health
@@ -26,8 +26,8 @@ services:
         sync: false
 
   - type: web
-    name: drunkva-frontend
-    env: static
+    name: drunkva-frontend-static
+    runtime: static
     autoDeploy: true
     buildCommand: |
       cat > config.js <<EOF
