@@ -25,8 +25,9 @@ services:
       - key: CORS_ORIGINS
         sync: false
 
-  - type: static
+  - type: web
     name: drunkva-frontend
+    env: static
     autoDeploy: true
     buildCommand: |
       cat > config.js <<EOF
@@ -34,7 +35,7 @@ services:
         API_BASE_URL: "${API_BASE_URL}"
       };
       EOF
-    publishPath: .
+    staticPublishPath: .
     envVars:
       - key: API_BASE_URL
         sync: false
